@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Kanji Flashcards</title>
+  <title>Kanji Flashcards Game</title>
   <style>
     :root {
       --primary-color: #4a90e2;
@@ -14,7 +14,6 @@
       --subtext-color: #7f8c8d;
       --correct-color: #2ecc71;
       --incorrect-color: #e74c3c;
-      --accent-color: #f39c12;
     }
 
     * {
@@ -45,7 +44,7 @@
       position: relative;
     }
 
-    /* Top Navigation / Selector Bar */
+    /* Navigation & Stats */
     .header-bar {
       display: flex;
       justify-content: space-between;
@@ -60,9 +59,6 @@
       font-weight: 700;
       padding: 6px 12px;
       border-radius: 20px;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
     }
 
     .change-pack-btn {
@@ -81,7 +77,6 @@
       background-color: #f0f0f0;
     }
 
-    /* Stats display */
     .stats {
       display: flex;
       justify-content: space-between;
@@ -99,7 +94,7 @@
       font-weight: 700;
     }
 
-    /* Flashcard presentation */
+    /* Card area */
     .card-area {
       display: flex;
       flex-direction: column;
@@ -110,7 +105,7 @@
     }
 
     .kanji-display {
-      font-size: 96px;
+      font-size: 90px;
       font-weight: bold;
       line-height: 1;
       margin: 0;
@@ -119,15 +114,14 @@
     }
 
     .romaji-display {
-      font-size: 22px;
+      margin-top: 15px;
+      font-size: 20px;
       font-weight: 600;
       color: var(--primary-color);
-      margin-top: 12px;
       letter-spacing: 0.5px;
-      user-select: none;
     }
 
-    /* Option Tiles */
+    /* Options */
     .options {
       display: flex;
       justify-content: space-between;
@@ -141,7 +135,7 @@
       color: white;
       border: none;
       border-radius: 14px;
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 700;
       cursor: pointer;
       display: flex;
@@ -176,7 +170,7 @@
       box-shadow: 0 4px 12px rgba(46, 204, 113, 0.4);
     }
 
-    /* Pack Selection Screen */
+    /* Pack Selection */
     .pack-selector-screen h2 {
       margin-top: 0;
       color: var(--text-color);
@@ -214,10 +208,6 @@
       box-shadow: 0 6px 15px rgba(74, 144, 226, 0.12);
     }
 
-    .pack-card:active {
-      transform: translateY(0);
-    }
-
     .pack-info h3 {
       margin: 0 0 4px 0;
       font-size: 17px;
@@ -239,7 +229,6 @@
       border-radius: 20px;
     }
 
-    /* Screen utilities */
     .hidden {
       display: none !important;
     }
@@ -276,37 +265,37 @@
     <!-- 1. PACK SELECTOR SCREEN -->
     <div id="pack-screen" class="pack-selector-screen">
       <h2>Select Kanji Pack</h2>
-      <p>Choose a 30-card deck to practice N5/N4 Kanji</p>
+      <p>Choose a 30-card deck of common Kanji</p>
       
       <div class="pack-grid">
         <div class="pack-card" onclick="selectPack(0)">
           <div class="pack-info">
-            <h3>Pack 1: Basics & Numbers</h3>
-            <p>1–30 • Fundamental kanji & numbers</p>
+            <h3>Pack 1: Numbers & Basics</h3>
+            <p>1–30 • Fundamental numbers, days & basics</p>
           </div>
           <span class="pack-count">30 Cards</span>
         </div>
 
         <div class="pack-card" onclick="selectPack(1)">
           <div class="pack-info">
-            <h3>Pack 2: Daily Life</h3>
-            <p>31–60 • Days, directions & common items</p>
+            <h3>Pack 2: Nature, Time & Places</h3>
+            <p>31–60 • Elements, directions & time words</p>
           </div>
           <span class="pack-count">30 Cards</span>
         </div>
 
         <div class="pack-card" onclick="selectPack(2)">
           <div class="pack-info">
-            <h3>Pack 3: Nature & Time</h3>
-            <p>61–90 • Elements, positions & time</p>
+            <h3>Pack 3: People & Everyday Life</h3>
+            <p>61–90 • Body parts, family & daily objects</p>
           </div>
           <span class="pack-count">30 Cards</span>
         </div>
 
         <div class="pack-card" onclick="selectPack(3)">
           <div class="pack-info">
-            <h3>Pack 4: Actions & People</h3>
-            <p>91–120 • Verbs, family & descriptions</p>
+            <h3>Pack 4: Actions & Descriptives</h3>
+            <p>91–120 • Common verbs, adjectives & concepts</p>
           </div>
           <span class="pack-count">30 Cards</span>
         </div>
@@ -338,7 +327,7 @@
     <!-- 3. GAME OVER SCREEN -->
     <div id="game-over-screen" class="hidden">
       <h2 style="font-size: 28px; margin-bottom: 5px;">🎉 Pack Complete!</h2>
-      <p style="color: var(--subtext-color); margin-top: 0;" id="game-over-pack-title">Pack 1: Basics & Numbers</p>
+      <p style="color: var(--subtext-color); margin-top: 0;" id="game-over-pack-title">Pack 1: Numbers & Basics</p>
       
       <div style="background: #f8fafc; padding: 20px; border-radius: 16px; margin: 20px 0;">
         <h3 style="margin: 0 0 10px 0; font-size: 15px; color: var(--subtext-color);">First-Try Accuracy</h3>
@@ -356,11 +345,11 @@
   </div>
 
   <script>
-    // 120 Essential N5-N4 Kanji split into 4 packs of 30 cards each
+    // 120 Essential Kanji divided into 4 packs of 30 cards each
     const kanjiPacks = [
-      // PACK 1: Basics & Numbers (1-30)
+      // PACK 1: Numbers & Basics (1-30)
       {
-        title: "Pack 1: Basics & Numbers",
+        title: "Pack 1: Numbers & Basics",
         cards: [
           { kanji: "一", romaji: "ichi", english: "One" },
           { kanji: "二", romaji: "ni", english: "Two" },
@@ -383,123 +372,123 @@
           { kanji: "木", romaji: "moku / ki", english: "Tree / Wood" },
           { kanji: "金", romaji: "kin / kane", english: "Gold / Money" },
           { kanji: "土", romaji: "do / tsuchi", english: "Soil / Earth" },
+          { kanji: "曜", romaji: "you", english: "Day of week" },
+          { kanji: "本", romaji: "hon / moto", english: "Book / Origin" },
           { kanji: "人", romaji: "jin / hito", english: "Person" },
-          { kanji: "子", romaji: "shi / ko", english: "Child" },
-          { kanji: "女", romaji: "jo / onna", english: "Woman" },
-          { kanji: "男", romaji: "dan / otoko", english: "Man" },
-          { kanji: "目", romaji: "moku / me", english: "Eye" },
-          { kanji: "口", romaji: "kou / kuchi", english: "Mouth" },
-          { kanji: "耳", romaji: "ji / mimi", english: "Ear" },
-          { kanji: "手", romaji: "shu / te", english: "Hand" },
-          { kanji: "足", romaji: "soku / ashi", english: "Foot / Leg" }
+          { kanji: "今", romaji: "kon / ima", english: "Now" },
+          { kanji: "年", romaji: "nen / toshi", english: "Year" },
+          { kanji: "半", romaji: "han", english: "Half" },
+          { kanji: "分", romaji: "fun / bun", english: "Minute / Part" },
+          { kanji: "時", romaji: "ji / toki", english: "Time / Hour" },
+          { kanji: "何", romaji: "nan / nani", english: "What" }
         ]
       },
-      // PACK 2: Daily Life & Directions (31-60)
+      // PACK 2: Nature, Time & Places (31-60)
       {
-        title: "Pack 2: Daily Life & Directions",
+        title: "Pack 2: Nature, Time & Places",
         cards: [
+          { kanji: "山", romaji: "san / yama", english: "Mountain" },
+          { kanji: "川", romaji: "kawa", english: "River" },
+          { kanji: "天", romaji: "ten", english: "Heaven / Sky" },
+          { kanji: "気", romaji: "ki", english: "Spirit / Air" },
+          { kanji: "雨", romaji: "ame", english: "Rain" },
+          { kanji: "空", romaji: "sora / kuu", english: "Sky / Empty" },
+          { kanji: "花", romaji: "hana", english: "Flower" },
+          { kanji: "国", romaji: "koku / kuni", english: "Country" },
+          { kanji: "学", romaji: "gaku / mana-bu", english: "Study / Learn" },
+          { kanji: "校", romaji: "kou", english: "School" },
+          { kanji: "先", romaji: "sen / saki", english: "Ahead / Previous" },
+          { kanji: "生", romaji: "sei / iki-ru", english: "Life / Birth" },
           { kanji: "上", romaji: "jou / ue", english: "Up / Above" },
           { kanji: "下", romaji: "ka / shita", english: "Down / Below" },
           { kanji: "中", romaji: "chuu / naka", english: "Inside / Middle" },
-          { kanji: "大", romaji: "dai / oo", english: "Big" },
-          { kanji: "小", romaji: "shou / chii", english: "Small" },
-          { kanji: "本", romaji: "hon / moto", english: "Book / Origin" },
-          { kanji: "学", romaji: "gaku / mana", english: "Study / Learn" },
-          { kanji: "校", romaji: "kou", english: "School" },
-          { kanji: "生", romaji: "sei / iki", english: "Life / Student" },
-          { kanji: "年", romaji: "nen / toshi", english: "Year" },
-          { kanji: "何", romaji: "ka / nani", english: "What" },
-          { kanji: "前", romaji: "zen / mae", english: "Front / Before" },
-          { kanji: "後", romaji: "go / ushiro", english: "Back / After" },
-          { kanji: "左", romaji: "sa / hidari", english: "Left" },
-          { kanji: "右", romaji: "u / migi", english: "Right" },
-          { kanji: "東", romaji: "tou / higashi", english: "East" },
-          { kanji: "西", romaji: "sei / nishi", english: "West" },
-          { kanji: "南", romaji: "nan / minami", english: "South" },
-          { kanji: "北", romaji: "hoku / kita", english: "North" },
           { kanji: "外", romaji: "gai / soto", english: "Outside" },
-          { kanji: "国", romaji: "koku / kuni", english: "Country" },
-          { kanji: "語", romaji: "go / kata", english: "Language" },
-          { kanji: "名", romaji: "mei / na", english: "Name" },
-          { kanji: "車", romaji: "sha / kuruma", english: "Car" },
+          { kanji: "右", romaji: "migi", english: "Right" },
+          { kanji: "左", romaji: "hidari", english: "Left" },
+          { kanji: "前", romaji: "zen / mae", english: "Front / Before" },
+          { kanji: "後", romaji: "go / ushiro", english: "Back / Behind" },
+          { kanji: "北", romaji: "kita", english: "North" },
+          { kanji: "南", romaji: "minami", english: "South" },
+          { kanji: "東", romaji: "higashi", english: "East" },
+          { kanji: "西", romaji: "nishi", english: "West" },
           { kanji: "駅", romaji: "eki", english: "Station" },
-          { kanji: "電", romaji: "den", english: "Electricity" },
-          { kanji: "天", romaji: "ten / ama", english: "Heaven / Sky" },
-          { kanji: "気", romaji: "ki", english: "Spirit / Mind" },
-          { kanji: "雨", romaji: "u / ame", english: "Rain" },
-          { kanji: "川", romaji: "sen / kawa", english: "River" }
-        ]
-      },
-      // PACK 3: Nature, Time & Properties (61-90)
-      {
-        title: "Pack 3: Nature & Time",
-        cards: [
-          { kanji: "山", romaji: "san / yama", english: "Mountain" },
-          { kanji: "花", romaji: "ka / hana", english: "Flower" },
-          { kanji: "空", romaji: "kuu / sora", english: "Sky / Empty" },
-          { kanji: "海", romaji: "kai / umi", english: "Sea / Ocean" },
-          { kanji: "時", romaji: "ji / toki", english: "Time / Hour" },
-          { kanji: "分", romaji: "fun / wakari", english: "Minute / Understand" },
-          { kanji: "半", romaji: "han", english: "Half" },
-          { kanji: "今", romaji: "kon / ima", english: "Now" },
-          { kanji: "朝", romaji: "chou / asa", english: "Morning" },
-          { kanji: "昼", romaji: "chuu / hiru", english: "Noon / Daytime" },
-          { kanji: "夜", romaji: "ya / yoru", english: "Night" },
-          { kanji: "白", romaji: "haku / shiro", english: "White" },
-          { kanji: "黒", romaji: "koku / kuro", english: "Black" },
-          { kanji: "赤", romaji: "seki / aka", english: "Red" },
-          { kanji: "青", romaji: "sei / ao", english: "Blue" },
-          { kanji: "高", romaji: "kou / takai", english: "High / Expensive" },
-          { kanji: "安", romaji: "an / yasui", english: "Cheap / Peaceful" },
-          { kanji: "新", romaji: "shin / atarashii", english: "New" },
-          { kanji: "古", romaji: "ko / furui", english: "Old" },
-          { kanji: "長", romaji: "chou / nagai", english: "Long / Chief" },
-          { kanji: "多", romaji: "ta / oozui", english: "Many / Much" },
-          { kanji: "少", romaji: "shou / sukosai", english: "Few / Little" },
-          { kanji: "早", romaji: "sou / hayai", english: "Early" },
-          { kanji: "広", romaji: "kou / hiroi", english: "Wide / Spacious" },
-          { kanji: "店", romaji: "ten / mise", english: "Shop / Store" },
-          { kanji: "屋", romaji: "oku / ya", english: "Roof / Shop" },
-          { kanji: "道", romaji: "dou / michi", english: "Road / Way" },
-          { kanji: "町", romaji: "chou / machi", english: "Town" },
           { kanji: "社", romaji: "sha / yashiro", english: "Company / Shrine" },
-          { kanji: "友", romaji: "yuu / tomo", english: "Friend" }
+          { kanji: "店", romaji: "mise / ten", english: "Shop" },
+          { kanji: "道", romaji: "dou / michi", english: "Road / Way" },
+          { kanji: "車", romaji: "sha / kuruma", english: "Car / Vehicle" },
+          { kanji: "門", romaji: "mon / kado", english: "Gate" }
         ]
       },
-      // PACK 4: Actions & People (91-120)
+      // PACK 3: People & Everyday Life (61-90)
       {
-        title: "Pack 4: Actions & People",
+        title: "Pack 3: People & Everyday Life",
         cards: [
-          { kanji: "見", romaji: "ken / miru", english: "See / Watch" },
-          { kanji: "行", romaji: "kou / iku", english: "Go" },
-          { kanji: "来", romaji: "rai / kuru", english: "Come" },
-          { kanji: "食", romaji: "shoku / taberu", english: "Eat" },
-          { kanji: "飲", romaji: "in / nomu", english: "Drink" },
-          { kanji: "買", romaji: "bai / kau", english: "Buy" },
-          { kanji: "書", romaji: "sho / kaku", english: "Write" },
-          { kanji: "読", romaji: "doku / yomu", english: "Read" },
-          { kanji: "聞", romaji: "bun / kiku", english: "Hear / Listen" },
-          { kanji: "話", romaji: "wa / hanasu", english: "Speak / Talk" },
-          { kanji: "立", romaji: "ritsu / tatsu", english: "Stand" },
-          { kanji: "座", romaji: "za / suwaru", english: "Sit" },
-          { kanji: "出", romaji: "shutsu / deru", english: "Exit / Leave" },
-          { kanji: "入", romaji: "nyuu / hairu", english: "Enter / Put in" },
-          { kanji: "会", romaji: "kai / au", english: "Meet" },
-          { kanji: "言", romaji: "gen / iu", english: "Say / Tell" },
-          { kanji: "思", romaji: "shi / omou", english: "Think" },
-          { kanji: "作", romaji: "saku / tsukuru", english: "Make" },
-          { kanji: "使", romaji: "shi / tsukau", english: "Use" },
-          { kanji: "知", romaji: "chi / shiru", english: "Know" },
-          { kanji: "住", romaji: "juu / sumu", english: "Reside / Live" },
-          { kanji: "売", romaji: "bai / uru", english: "Sell" },
-          { kanji: "待", romaji: "tai / matsu", english: "Wait" },
-          { kanji: "持", romaji: "ji / motsu", english: "Hold / Have" },
-          { kanji: "父", romaji: "fu / chichi", english: "Father" },
-          { kanji: "母", romaji: "bo / haha", english: "Mother" },
-          { kanji: "兄", romaji: "kei / ani", english: "Older Brother" },
-          { kanji: "弟", romaji: "dai / otouto", english: "Younger Brother" },
-          { kanji: "姉", romaji: "shi / ane", english: "Older Sister" },
-          { kanji: "妹", romaji: "mai / imouto", english: "Younger Sister" }
+          { kanji: "父", romaji: "chichi / tou", english: "Father" },
+          { kanji: "母", romaji: "haha / kaa", english: "Mother" },
+          { kanji: "子", romaji: "ko / shi", english: "Child" },
+          { kanji: "男", romaji: "otoko / dan", english: "Man / Male" },
+          { kanji: "女", romaji: "onna / jo", english: "Woman / Female" },
+          { kanji: "友", romaji: "tomo / yuu", english: "Friend" },
+          { kanji: "目", romaji: "me / moku", english: "Eye" },
+          { kanji: "口", romaji: "kuchi / kou", english: "Mouth" },
+          { kanji: "耳", romaji: "mimi / ji", english: "Ear" },
+          { kanji: "手", romaji: "te / shu", english: "Hand" },
+          { kanji: "足", romaji: "ashi / soku", english: "Foot / Leg" },
+          { kanji: "心", romaji: "kokoro / shin", english: "Heart / Mind" },
+          { kanji: "名", romaji: "na / mei", english: "Name" },
+          { kanji: "語", romaji: "go / kata-ru", english: "Language / Word" },
+          { kanji: "字", romaji: "ji", english: "Character / Letter" },
+          { kanji: "文", romaji: "bun / mon", english: "Sentence / Writing" },
+          { kanji: "紙", romaji: "kami / shi", english: "Paper" },
+          { kanji: "魚", romaji: "sakana / gyo", english: "Fish" },
+          { kanji: "肉", romaji: "niku", english: "Meat" },
+          { kanji: "犬", romaji: "inu / ken", english: "Dog" },
+          { kanji: "家", romaji: "ie / ka", english: "House / Home" },
+          { kanji: "間", romaji: "aida / kan", english: "Between / Interval" },
+          { kanji: "電", romaji: "den", english: "Electricity" },
+          { kanji: "話", romaji: "hanashi / wa", english: "Talk / Speech" },
+          { kanji: "古", romaji: "furu-i / ko", english: "Old" },
+          { kanji: "新", romaji: "atara-shii / shin", english: "New" },
+          { kanji: "大", romaji: "oo-kii / dai", english: "Big / Large" },
+          { kanji: "小", romaji: "chii-sai / shou", english: "Small" },
+          { kanji: "高", romaji: "taka-i / kou", english: "High / Expensive" },
+          { kanji: "安", romaji: "yasu-i / an", english: "Cheap / Peaceful" }
+        ]
+      },
+      // PACK 4: Actions & Descriptives (91-120)
+      {
+        title: "Pack 4: Actions & Descriptives",
+        cards: [
+          { kanji: "行", romaji: "i-ku / kou", english: "To go" },
+          { kanji: "来", romaji: "ku-ru / rai", english: "To come" },
+          { kanji: "食", romaji: "ta-beru / shoku", english: "To eat" },
+          { kanji: "飲", romaji: "no-mu / in", english: "To drink" },
+          { kanji: "見", romaji: "mi-ru / ken", english: "To see / watch" },
+          { kanji: "聞", romaji: "ki-ku / bun", english: "To hear / listen" },
+          { kanji: "書", romaji: "ka-ku / sho", english: "To write" },
+          { kanji: "読", romaji: "yo-mu / doku", english: "To read" },
+          { kanji: "買", romaji: "ka-u / bai", english: "To buy" },
+          { kanji: "立", romaji: "ta-tsu / ritsu", english: "To stand" },
+          { kanji: "休", romaji: "yasu-mu / kyuu", english: "To rest" },
+          { kanji: "出", romaji: "de-ru / shutsu", english: "To exit / leave" },
+          { kanji: "入", romaji: "hai-ru / nyuu", english: "To enter" },
+          { kanji: "会", romaji: "a-u / kai", english: "To meet" },
+          { kanji: "言", romaji: "i-u / gen", english: "To say" },
+          { kanji: "思", romaji: "omo-u / shi", english: "To think" },
+          { kanji: "作", romaji: "tsuku-ru / saku", english: "To make" },
+          { kanji: "使", romaji: "tsuka-u / shi", english: "To use" },
+          { kanji: "知", romaji: "shi-ru / chi", english: "To know" },
+          { kanji: "住", romaji: "su-mu / juu", english: "To reside / live" },
+          { kanji: "少", romaji: "suku-nai / shou", english: "Few / Little" },
+          { kanji: "多", romaji: "oo-i / ta", english: "Many / Much" },
+          { kanji: "長", romaji: "naga-i / chou", english: "Long / Leader" },
+          { kanji: "広", romaji: "hiro-i / kou", english: "Wide / Spacious" },
+          { kanji: "早", romaji: "haya-i / sou", english: "Early / Fast" },
+          { kanji: "明", romaji: "aka-rui / mei", english: "Bright" },
+          { kanji: "暗", romaji: "kura-i / an", english: "Dark" },
+          { kanji: "近", romaji: "chika-i / kin", english: "Near / Close" },
+          { kanji: "遠", romaji: "too-i / en", english: "Far / Distant" },
+          { kanji: "好", romaji: "su-ki / kou", english: "To like / Favorite" }
         ]
       }
     ];
@@ -578,7 +567,7 @@
       kanjiDisplay.textContent = currentCard.kanji;
       romajiDisplay.textContent = currentCard.romaji;
 
-      // Pool distractor answers from ALL 120 cards to ensure variety
+      // Pool distractor answers from ALL 120 cards
       const allCardsCombined = kanjiPacks.flatMap(pack => pack.cards);
       const otherCards = allCardsCombined.filter(item => item.english !== currentCard.english);
       const shuffledOthers = shuffleArray(otherCards);
@@ -610,6 +599,7 @@
         const buttons = optionsContainer.querySelectorAll('.tile');
         buttons.forEach(btn => btn.disabled = true);
 
+        // 1500ms delay to allow viewing the Kanji and translation before moving to next card
         setTimeout(() => {
           currentIndex++;
           if (currentIndex < activeDeck.length) {
@@ -617,7 +607,7 @@
           } else {
             endGame();
           }
-        }, 500);
+        }, 1500);
 
       } else {
         selectedButton.classList.add('incorrect');
